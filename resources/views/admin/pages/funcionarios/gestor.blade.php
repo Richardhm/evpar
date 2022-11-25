@@ -210,9 +210,6 @@
                             }
                         }
                     },
-
-
-
                     {
                         "targets": 7,
                         "createdCell": function (td, cellData, rowData, row, col) {
