@@ -29,6 +29,7 @@ class CreateFuncionariosTable extends Migration
             $table->string('cep');
             $table->string('telefone');
             $table->string('complemento');
+            $table->integer('classificacao')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete("cascade");
             $table->foreign('experiencia_id')->references('id')->on('experiencias')->onDelete("cascade");
             $table->foreign('especialidade_id')->references('id')->on('especialidades')->onDelete("cascade");

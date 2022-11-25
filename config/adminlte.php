@@ -410,6 +410,21 @@ return [
                 ],
             ],
         ],
+        'Stars' => [
+            'active' => false,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/stars/jquery.rateyo.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/stars/jquery.rateyo.min.css',
+                ],
+            ],
+        ],
     ],
 
     /*

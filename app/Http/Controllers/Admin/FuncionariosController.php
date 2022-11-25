@@ -134,6 +134,9 @@ class FuncionariosController extends Controller
        $alt->complemento = $request->complemento;
        $alt->especialidade_id = $request->especialidade_id;
        $alt->experiencia_id = $request->experiencia_id;
+       if($request->classificacao && !empty($request->classificacao)) {
+            $alt->classificacao = $request->classificacao;
+       }
        $alt->save();
        return redirect()->route('listar.funcionarios')->with('success',"Dados de ".$request->nome." alterado com sucesso");
     }

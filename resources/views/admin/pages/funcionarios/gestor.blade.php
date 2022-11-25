@@ -2,6 +2,7 @@
 
 @section('title', 'Listar Funcionarios')
 @section('plugins.Datatables', true)
+@section('plugins.Stars', true)
 @section('content_header')
     <h1>Cadastrar Funcionarios <a href="{{route('listar.funcionarios.cadastrar')}}" class="btn btn-warning">
     <i class="fas fa-plus"></i>
@@ -27,6 +28,7 @@
                         <th>Cidade</th>
                         <th>Especialidade</th>
                         <th>Experiencia</th>
+                        <th>Classi.</th>
                         <th>Editar</th>
                         <th>Deletar</th>
                     </tr>
@@ -124,6 +126,11 @@
                                 @endforeach
                             </select>
                         </div>
+                        <input type="hidden" name="classificacao" id="classificacao">
+                        <div style="background-color:#666;width:90px;margin:0 auto;padding:10px 0;border-radius:5px;">
+                            <div id="rateYo"></div>
+                        </div>
+                        
 
 
                         <div class="modal-footer">
@@ -152,9 +159,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-
-
-
+            $("#rateYo").rateYo({spacing: "10px",starWidth: "20px",numStars: 3,minValue: 0,maxValue: 3,normalFill: 'white',ratedFill: 'orange',fullStar: true,onSet: function (rating, rateYoInstance) {$("input[name='classificacao']").val(rating);}});
             let ta = $(".listarfuncionarios").DataTable({
                 dom: '<"d-flex justify-content-between"<"#title">ft><t><"d-flex justify-content-between"lp>',
 
@@ -179,6 +184,7 @@
                     {data:"cidade",name:"cidade"},
                     {data:"especialidade.nome",name:"especialidade"},
                     {data:"experiencia.nome",name:"experiencia"},
+                    {data:"classificacao",name:"classificacao"},
                     {data:"id",name:"editar"},
                     {data:"id",name:"deletar"},
                     
@@ -195,14 +201,27 @@
                     {
                         "targets": 6,
                         "createdCell": function (td, cellData, rowData, row, col) {
-                            
+                            if(cellData == 1) {
+                                $(td).html('<span>&#9733;</span>')
+                            } else if(cellData == 2) {
+                                $(td).html('<span>&#9733;&#9733;</span>')
+                            } else {
+                                $(td).html('<span>&#9733;&#9733;&#9733;</span>')
+                            }
+                        }
+                    },
+
+
+
+                    {
+                        "targets": 7,
+                        "createdCell": function (td, cellData, rowData, row, col) {
                             $(td).html('<a href="" class="btn btn-info btn-sm editar" data-id='+cellData+'>Editar</a>')    
                         }
                     },
                     {
-                        "targets": 7,
+                        "targets": 8,
                         "createdCell": function (td, cellData, rowData, row, col) {
-                            
                             $(td).html('<a href="" class="btn btn-danger btn-sm deletar" data-id='+cellData+'>Deletar</a>')    
                         }
                     }    
@@ -243,7 +262,17 @@
 
             $('table').on('click', 'tbody tr', function () {
                 let data = table.row(this).data();
-                
+                if(data.classificacao) {
+                    if(data.classificacao == 1) {
+                        $("#rateYo").rateYo('rating', 1);
+                    } else if(data.classificacao == 2) {
+                        $("#rateYo").rateYo('rating', 2);
+                    } else if(data.classificacao == 3) {
+                        $("#rateYo").rateYo('rating', 3);
+                    } else {
+                        $("#rateYo").rateYo('rating', 0);
+                    }
+                } 
                 $("#nome").val(data.nome);
                 $("#nome_pai").val(data.nome_pai);
                 $("#nome_mae").val(data.nome_mae);
